@@ -1,5 +1,5 @@
 // Configurações de Conexão com o seu banco do Supabase
-const supabaseUrl = 'https://supabase.co';
+const supabaseUrl = 'https://gfdunfrpfjbbibwhmhsa.supabase.co';
 const supabaseKey = 'sb_publishable_ziGqT-rTJ6yGfWEyaJ2xIQ_5QGLTrER';
 
 // Cria o cliente de conexão usando a biblioteca carregada pelo HTML
