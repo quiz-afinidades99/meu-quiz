@@ -2,24 +2,20 @@
 const supabaseUrl = 'https://supabase.co';
 const supabaseKey = 'sb_publishable_ziGqT-rTJ6yGfWEyaJ2xIQ_5QGLTrER';
 
-// Inicializa a conexão com o Supabase de forma segura
-const supabase = (typeof supabase !== 'undefined' && supabase.createClient) 
-    ? supabase.createClient(supabaseUrl, supabaseKey) 
-    : (typeof window['@supabase/supabase-js'] !== 'undefined') 
-        ? window['@supabase/supabase-js'].createClient(supabaseUrl, supabaseKey)
-        : null;
-
 // Função para buscar as perguntas do banco de dados ao carregar a página
 async function carregarPerguntas() {
     const areaPerguntas = document.getElementById('area-perguntas');
     
-    if (!supabase) {
-        areaPerguntas.innerHTML = '<p style="color:red;">Erro: Conexão com o banco de dados não configurada corretamente.</p>';
+    // Conecta com o Supabase carregado pelo HTML
+    if (typeof supabase === 'undefined' || !supabase.createClient) {
+        areaPerguntas.innerHTML = '<p style="color:red;">Erro: Biblioteca do Supabase não foi carregada pelo navegador.</p>';
         return;
     }
 
+    const clienteSupabase = supabase.createClient(supabaseUrl, supabaseKey);
+
     // Busca as perguntas na tabela 'perguntas'
-    const { data, error } = await supabase.from('perguntas').select('*');
+    const { data, error } = await clienteSupabase.from('perguntas').select('*');
 
     if (error) {
         areaPerguntas.innerHTML = '<p style="color:red;">Erro ao carregar as perguntas do banco.</p>';
@@ -27,7 +23,7 @@ async function carregarPerguntas() {
         return;
     }
 
-    // Se tudo der certo, limpa a mensagem antiga e mostra as perguntas
+    // Se tudo der certo, limpa a mensagem de carregamento e mostra as perguntas
     areaPerguntas.innerHTML = '';
     
     if (data.length === 0) {
