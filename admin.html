@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Administração - Quiz</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="container">
+        <main class="card">
+            <h1>⚙️ Painel do Administrador</h1>
+            <p>Gerenciamento de perguntas e respostas do banco de dados.</p>
+            
+            <!-- Formulário para Criar Novas Perguntas -->
+            <section style="margin-top: 20px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+                <h3>➕ Adicionar Nova Pergunta</h3>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px;">Enunciado da Pergunta:</label>
+                    <input type="text" id="nova-pergunta" placeholder="Ex: Qual sua linguagem favorita?" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+                </div>
+                <button id="btn-salvar" class="btn">Salvar no Supabase</button>
+            </section>
+
+            <!-- Lista de Perguntas Já Existentes -->
+            <section style="margin-top: 30px;">
+                <h3>📋 Perguntas Cadastradas</h3>
+                <div id="lista-perguntas">
+                    <p style="color:#666;">Carregando perguntas...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Conecta com o seu arquivo de lógica do Administrador -->
+    <script src="admin.js"></script>
+</body>
+</html>

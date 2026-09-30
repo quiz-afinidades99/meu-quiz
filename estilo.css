@@ -1,0 +1,75 @@
+/* Configurações de Cores e Fundo do Site */
+:root {
+    --primary: #3b82f6;
+    --success: #3cbf7e;
+    --text: #ffffff; /* Mudamos o texto geral para branco para aparecer no fundo preto */
+    --card-bg: rgba(255, 255, 255, 0.1); /* Deixamos a caixinha transparente/fumaça */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    
+    /* Configuração do fundo preto com a sua imagem */
+    background-color: #000000; /* Tela fica preta */
+    background-image: url('fundo.png'); /* Puxa o seu desenho */
+    background-repeat: no-repeat; /* Não deixa a imagem ficar se repetindo */
+    background-position: center; /* Centraliza o desenho na tela */
+    background-size: cover; /* Faz a imagem cobrir a tela toda de forma bonita */
+    background-attachment: fixed; /* Deixa o fundo fixo se a tela rolar */
+}
+
+/* Estilo das Caixas (Cards) */
+.container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Sombra mais escura */
+    backdrop-filter: blur(8px); /* Efeito de vidro embaçado super moderno */
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Bordinha fina brilhante */
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+    color: #ffffff; /* Títulos em branco para destacar no preto */
+}
+
+p {
+    line-height: 1.6;
+    color: #e5e7eb; /* Texto descritivo em cinza claro */
+}
+
+/* Botões Customizados */
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--success);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    filter: brightness(0.9);
+}
+
+.btn-secondary {
+    background-color: #4b5563;
+}
