@@ -3,19 +3,21 @@ const supabaseUrl = 'https://gfdunfrpfjbbibwhmhsa.supabase.co';
 const supabaseKey = 'sb_publishable_ziGqT-rTJ6yGfWEyaJ2xIQ_5QGLTrER';
 
 // Cria o cliente de conexão usando a biblioteca carregada pelo HTML
-const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
+const supabaseClient = window.supabase
+    ? window.supabase.createClient(supabaseUrl, supabaseKey)
+    : null;
 
 // Função principal que busca e exibe as perguntas na tela
 async function carregarPerguntas() {
     const areaPerguntas = document.getElementById('area-perguntas');
     
-    if (!supabase) {
+   if (!supabaseClient) {
         areaPerguntas.innerHTML = '<p style="color:red;">Erro interno: Conexão com o Supabase falhou no carregamento.</p>';
         return;
     }
 
     // Puxa todas as linhas cadastradas na tabela 'perguntas'
-    const { data, error } = await supabase.from('perguntas').select('*');
+    const { data, error } = await supabaseClient.from('perguntas').select('*');
 
     if (error) {
         areaPerguntas.innerHTML = '<p style="color:red;">Erro: Não foi possível ler as perguntas do banco de dados.</p>';
