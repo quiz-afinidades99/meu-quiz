@@ -1,36 +1,37 @@
-// Configuração do Supabase
+// Configurações de Conexão com o seu banco do Supabase
 const supabaseUrl = 'https://supabase.co';
 const supabaseKey = 'sb_publishable_ziGqT-rTJ6yGfWEyaJ2xIQ_5QGLTrER';
 
-// Função para buscar as perguntas do banco de dados ao carregar a página
+// Cria o cliente de conexão usando a biblioteca carregada pelo HTML
+const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
+
+// Função principal que busca e exibe as perguntas na tela
 async function carregarPerguntas() {
     const areaPerguntas = document.getElementById('area-perguntas');
     
-    // Conecta com o Supabase carregado pelo HTML
-    if (typeof supabase === 'undefined' || !supabase.createClient) {
-        areaPerguntas.innerHTML = '<p style="color:red;">Erro: Biblioteca do Supabase não foi carregada pelo navegador.</p>';
+    if (!supabase) {
+        areaPerguntas.innerHTML = '<p style="color:red;">Erro interno: Conexão com o Supabase falhou no carregamento.</p>';
         return;
     }
 
-    const clienteSupabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-    // Busca as perguntas na tabela 'perguntas'
-    const { data, error } = await clienteSupabase.from('perguntas').select('*');
+    // Puxa todas as linhas cadastradas na tabela 'perguntas'
+    const { data, error } = await supabase.from('perguntas').select('*');
 
     if (error) {
-        areaPerguntas.innerHTML = '<p style="color:red;">Erro ao carregar as perguntas do banco.</p>';
-        console.error(error);
+        areaPerguntas.innerHTML = '<p style="color:red;">Erro: Não foi possível ler as perguntas do banco de dados.</p>';
+        console.error("Detalhes do erro do Supabase:", error);
         return;
     }
 
-    // Se tudo der certo, limpa a mensagem de carregamento e mostra as perguntas
+    // Limpa o texto "Carregando..."
     areaPerguntas.innerHTML = '';
     
-    if (data.length === 0) {
-        areaPerguntas.innerHTML = '<p style="color:gray;">Nenhuma pergunta encontrada no banco de dados.</p>';
+    if (!data || data.length === 0) {
+        areaPerguntas.innerHTML = '<p style="color:gray;">Nenhuma pergunta cadastrada na tabela do Supabase.</p>';
         return;
     }
 
+    // Monta a lista de perguntas na tela do usuário
     data.forEach((item, index) => {
         const div = document.createElement('div');
         div.style.marginBottom = '15px';
@@ -40,5 +41,5 @@ async function carregarPerguntas() {
     });
 }
 
-// Executa a função assim que a página abre
+// Inicializa a busca assim que a estrutura do site carregar
 document.addEventListener('DOMContentLoaded', carregarPerguntas);
