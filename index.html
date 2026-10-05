@@ -1,52 +1,280 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Questionário Recreativo</title>
-    <link rel="stylesheet" href="estilo.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz de Afinidades</title>
+
+  <link rel="stylesheet" href="estilo.css">
+
+  <style>
+    .tela {
+      width: 100%;
+    }
+
+    #tela-login {
+      max-width: 520px;
+      margin: 40px auto;
+    }
+
+    .login-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.10);
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .login-box p {
+      text-align: center;
+    }
+
+    .campo-login {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 7px 0 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 13px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .btn-google {
+      background: #fff;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+
+    .btn-conta {
+      background: #2e7d32;
+      color: #fff;
+    }
+
+    .btn-entrar {
+      background: #1565c0;
+      color: #fff;
+    }
+
+    .separador {
+      text-align: center;
+      margin: 20px 0;
+      color: #777;
+    }
+
+    .mensagem-login {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    #tela-quiz {
+      display: none;
+    }
+
+    #area-perguntas {
+      margin: 20px 0;
+      padding-right: 10px;
+      max-height: none;
+      overflow: visible;
+    }
+
+    .topo-usuario {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn-sair {
+      padding: 8px 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <main class="card">
-            <!-- FRASE EM FRANCÊS -->
-            <p style="text-align: center; font-style: italic; color: #b3b3b3; font-size: 14px; margin-bottom: 20px;">
-                "Quelle chance j'ai"
-            </p>
 
-            <h1>🧠 Bem-vindo ao Quiz de Afinidades</h1>
-            <p>Responda às perguntas para descobrir o seu perfil detalhado.</p>
-            
-            <!-- Área onde as perguntas vão carregar -->
-            <div id="area-perguntas" style="max-height: 300px; overflow-y: auto; margin: 20px 0; padding-right: 10px;">
-                <p style="color: #ccc;">Carregando questionário...</p>
-            </div>
+  <div class="container">
 
-            <!-- Bloco de Privacidade (LGPD) -->
-            <div class="bloco-privacidade" style="margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 5px; border: 1px solid rgba(255,255,255,0.1);">
-                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; text-align: left;">
-                    <input type="checkbox" id="chk-lgpd">
-                    <span style="color: white; font-size: 14px;">
-                        📄 Li e concordo com a 
-                        <a href="privacidade.html" target="_blank" style="color: #3b82f6; font-weight: bold; text-decoration: underline;">
-                            Política de Privacidade
-                        </a> 
-                        e autorizo o tratamento anônimo das minhas respostas.
-                    </span>
-                </label>
-            </div>
+    <!-- =========================
+         TELA DE LOGIN / CADASTRO
+         ========================= -->
+    <main id="tela-login" class="tela">
+      <div class="login-box">
 
-            <!-- Botão para avançar -->
-            <button id="btn-iniciar" class="btn" style="width: 100%; padding: 12px; background: #3cbf7e; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
-                Iniciar Questionário
-            </button>
-        </main>
-    </div>
+        <p><em>Quelle chance j'ai</em></p>
 
-    <!-- 1º: Biblioteca Oficial do Supabase via CDN (Endereço Completo de Produção) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- 2º: Arquivo de Lógica com trava de atualização automática para o navegador (?v=3) -->
-    <script src="perguntas.js?v=4"></script>
+        <h2>🧠 Quiz de Afinidades</h2>
+
+        <p>
+          Entre ou crie sua conta para começar o questionário.
+        </p>
+
+        <button id="btn-google" class="btn-login btn-google">
+          🔵 Continuar com Google
+        </button>
+
+        <div class="separador">ou</div>
+
+        <h3>Criar uma conta</h3>
+
+        <input
+          type="text"
+          id="cadastro-nome"
+          class="campo-login"
+          placeholder="Seu nome"
+          autocomplete="name"
+        >
+
+        <input
+          type="email"
+          id="cadastro-email"
+          class="campo-login"
+          placeholder="Seu e-mail"
+          autocomplete="email"
+        >
+
+        <input
+          type="password"
+          id="cadastro-senha"
+          class="campo-login"
+          placeholder="Crie uma senha"
+          autocomplete="new-password"
+        >
+
+        <input
+          type="password"
+          id="cadastro-confirmar"
+          class="campo-login"
+          placeholder="Confirme sua senha"
+          autocomplete="new-password"
+        >
+
+        <button id="btn-cadastrar" class="btn-login btn-conta">
+          Criar minha conta
+        </button>
+
+        <div class="separador">Já tenho uma conta</div>
+
+        <input
+          type="email"
+          id="login-email"
+          class="campo-login"
+          placeholder="Seu e-mail"
+          autocomplete="email"
+        >
+
+        <input
+          type="password"
+          id="login-senha"
+          class="campo-login"
+          placeholder="Sua senha"
+          autocomplete="current-password"
+        >
+
+        <button id="btn-entrar" class="btn-login btn-entrar">
+          Entrar
+        </button>
+
+        <div id="mensagem-login" class="mensagem-login"></div>
+
+      </div>
+    </main>
+
+
+    <!-- =========================
+         TELA DO QUESTIONÁRIO
+         ========================= -->
+    <main id="tela-quiz" class="tela">
+
+      <div class="card">
+
+        <div class="topo-usuario">
+          <span id="usuario-logado"></span>
+
+          <button id="btn-sair" class="btn-sair">
+            Sair
+          </button>
+        </div>
+
+        <p style="text-align:center;">
+          <em>Quelle chance j'ai</em>
+        </p>
+
+        <h1>🧠 Bem-vindo ao Quiz de Afinidades</h1>
+
+        <p>
+          Responda às perguntas para descobrir o seu perfil detalhado.
+        </p>
+
+        <div id="area-inicio">
+
+          <label id="lgpd-container">
+            <input type="checkbox" id="chk-lgpd">
+            Li e concordo com a
+            <a href="privacidade.html" target="_blank">
+              Política de Privacidade
+            </a>
+          </label>
+
+          <br><br>
+
+          <button id="btn-iniciar">
+            Iniciar Questionário
+          </button>
+
+        </div>
+
+        <!-- As 80 perguntas aparecerão aqui -->
+        <div id="area-perguntas"></div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    /*
+      IMPORTANTE:
+      A URL abaixo é pública do seu projeto Supabase.
+
+      O publishable key deve ser colocado aqui.
+      NÃO coloque a chave secreta do Google neste arquivo.
+    */
+
+    window.SUPABASE_URL =
+      "https://gfdunfrpfjbbibwhmhsa.supabase.co";
+
+    window.SUPABASE_PUBLISHABLE_KEY =
+      "COLOQUE_AQUI_SEU_PUBLISHABLE_KEY_DO_SUPABASE";
+  </script>
+
+  <script src="perguntas.js?v=4"></script>
+
 </body>
 </html>
